@@ -1,0 +1,15 @@
+# Environnement virtuel
+venv/
+ENV/
+
+# Bytecode Python
+__pycache__/
+*.pyc
+
+# Base de données locale générée
+*.db
+*.sqlite3
+
+# Dossier VS Code / IDE
+.vscode/
+.idea/
