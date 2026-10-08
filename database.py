@@ -1,3 +1,5 @@
+import os
+import qrcode
 import sqlite3
 import secrets
 from datetime import datetime, timedelta
@@ -146,6 +148,30 @@ def fermer_seance(seance_id):
     conn.commit()
     conn.close()
     return True
+
+# QR CODE
+def generer_qr_code(token, base_url="http://127.0.0.1:5000"):
+    #http://127.0.0.1:5000/presence/e3GXCUKtaXg
+    url_presence = f"{base_url}/presence/{token}" 
+    
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_M,
+        box_size=10,
+        border=4
+    )
+    qr.add_data(url_presence)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    dossier_destination = os.path.join("static", "qrcodes")
+    os.makedirs(dossier_destination, exist_ok=True)
+    nom_fichier = f"{token}.png"
+    chemin_fichier = os.path.join(dossier_destination, nom_fichier)
+    img.save(chemin_fichier)
+
+    return f"qrcodes/{nom_fichier}"
+
+
     
 # Le point d'entree
 if __name__ == "__main__":
@@ -189,3 +215,11 @@ if __name__ == "__main__":
     seance_fermee = get_seance_par_token(nouvelle_seance["token"])
     valide_apres_fermeture, msg_fermeture = seance_est_valide(seance_fermee)
     print(f"Après fermeture prof : Valide={valide_apres_fermeture} ({msg_fermeture})")
+
+    print("\n--- TEST DU TICKET 5 ---")
+    token_test = nouvelle_seance["token"]
+    
+    chemin_qr = generer_qr_code(token_test)
+    print(f"QR Code généré avec succès !")
+    print(f"Fichier enregistré sous : static/{chemin_qr}")
+    print(f"URL encodée dans le QR : http://127.0.0.1:5000/presence/{token_test}")
