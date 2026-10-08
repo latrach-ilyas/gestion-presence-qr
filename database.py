@@ -1,4 +1,6 @@
 import sqlite3
+import secrets
+from datetime import datetime, timedelta
 
 DATABASE_NAME = "presence.db"
 
@@ -96,6 +98,55 @@ def supprimer_etudiant(etudiant_id):
     conn.close()
     return True
 
+#Gestion des seances
+
+def creer_seance(module, professeur_id, duree_minutes=5):
+    #generation de token
+    token = secrets.token_urlsafe(8)
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO seances (module, professeur_id, duree_minutes, token)
+        VALUES (?, ?, ?, ?)
+    """,(module.strip(), professeur_id, duree_minutes, token))
+    seance_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return get_seance_par_token(token)
+
+def get_seance_par_token(token):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM seances WHERE token = ?", (token,))
+    seance = cursor.fetchone()
+    conn.close()
+    return seance
+
+def seance_est_valide(seance):
+    if not seance:
+        return False, "Seance introuvable"
+    if seance["est_active"] == 0:
+        return False, "Cette seance a ete fermee par le professeur"
+    date_debut = datetime.strptime(seance["date_debut"], "%Y-%m-%d %H:%M:%S")
+    date_expiration = date_debut + timedelta(minutes=seance["duree_minutes"])
+
+    if datetime.utcnow() > date_expiration:
+        return False, "Le temps alloue au pointage est ecoule."
+    
+    return True, "Seance ouverte"
+
+def fermer_seance(seance_id):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE seances 
+        SET est_active = 0 
+        WHERE id = ?
+    """, (seance_id,))
+    conn.commit()
+    conn.close()
+    return True
+    
 # Le point d'entree
 if __name__ == "__main__":
     init_db()
@@ -121,3 +172,20 @@ if __name__ == "__main__":
     #lister les etu
     tous = lister_etudiants()
     print(f"Nombre total d'etudiants enregistres : {len(tous)}")
+
+
+    print("\n--- TEST DU TICKET 4 ---")
+    
+    # 1. Création d'une séance de test (prof_id = 1)
+    nouvelle_seance = creer_seance("Python Avancé", 1, duree_minutes=5)
+    print(f"✅ Séance créée : ID={nouvelle_seance['id']} | Token={nouvelle_seance['token']}")
+
+    # 2. Vérification immédiate (doit être valide)
+    valide, msg = seance_est_valide(nouvelle_seance)
+    print(f"✅ Statut immédiat : {valide} ({msg})")
+
+    # 3. Fermeture manuelle
+    fermer_seance(nouvelle_seance["id"])
+    seance_fermee = get_seance_par_token(nouvelle_seance["token"])
+    valide_apres_fermeture, msg_fermeture = seance_est_valide(seance_fermee)
+    print(f"✅ Après fermeture prof : Valide={valide_apres_fermeture} ({msg_fermeture})")
