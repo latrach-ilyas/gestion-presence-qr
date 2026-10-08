@@ -176,16 +176,16 @@ if __name__ == "__main__":
 
     print("\n--- TEST DU TICKET 4 ---")
     
-    # 1. Création d'une séance de test (prof_id = 1)
+    # Création d'une séance de test (prof_id = 1)
     nouvelle_seance = creer_seance("Python Avancé", 1, duree_minutes=5)
-    print(f"✅ Séance créée : ID={nouvelle_seance['id']} | Token={nouvelle_seance['token']}")
+    print(f"Séance créée : ID={nouvelle_seance['id']} | Token={nouvelle_seance['token']}")
 
-    # 2. Vérification immédiate (doit être valide)
+    # Vérification immédiate (doit être valide)
     valide, msg = seance_est_valide(nouvelle_seance)
-    print(f"✅ Statut immédiat : {valide} ({msg})")
+    print(f"Statut immédiat : {valide} ({msg})")
 
-    # 3. Fermeture manuelle
+    # Fermeture manuelle
     fermer_seance(nouvelle_seance["id"])
     seance_fermee = get_seance_par_token(nouvelle_seance["token"])
     valide_apres_fermeture, msg_fermeture = seance_est_valide(seance_fermee)
-    print(f"✅ Après fermeture prof : Valide={valide_apres_fermeture} ({msg_fermeture})")
+    print(f"Après fermeture prof : Valide={valide_apres_fermeture} ({msg_fermeture})")
