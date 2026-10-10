@@ -1,0 +1,906 @@
+/* =========================================================
+   Gestion des Présences | ENSAM
+   Feuille de style unique pour toutes les pages
+   ========================================================= */
+
+:root {
+    --ink: #12203a;
+    --muted: #51607a;
+    --rule: #d5dbe5;
+    --rule-strong: #b8c2d1;
+    --surface-alt: #f5f7fa;
+
+    --primary: #0a3d91;
+    --primary-hover: #072c6b;
+    --ok: #17734a;
+    --ok-hover: #115c3a;
+    --ok-soft: #e7f4ec;
+    --danger: #a12626;
+    --danger-soft: #fdecec;
+
+    --font: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --gutter: clamp(20px, 5vw, 56px);
+    --radius: 6px;
+    --focus-ring: 0 0 0 3px rgba(10, 61, 145, 0.22);
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    --strip: var(--primary);
+    --page-bg: #fff;
+
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+
+    /* 6px brand strip across the top */
+    background:
+        linear-gradient(var(--strip), var(--strip)) top / 100% 6px no-repeat,
+        var(--page-bg);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+}
+
+h1 {
+    font-size: clamp(2rem, 1.4rem + 2.4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+}
+
+h2 {
+    margin-bottom: 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.description {
+    max-width: 52ch;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+/* ---------- Layout ---------- */
+.boite-principale {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding: 6px var(--gutter) 32px;
+}
+
+/* ---------- Header ---------- */
+.entete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    padding-block: 24px;
+    border-bottom: 1px solid var(--rule);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.brand-name {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.brand-subtitle {
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--muted);
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+}
+
+/* Liens d'en-tête (Déconnexion, Retour...) : seule la zone de survol change */
+.status a,
+.entete > a {
+    margin-block: -8px;
+    margin-right: -12px;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    transition: background-color 0.15s ease;
+}
+
+.status a:hover,
+.entete > a:hover {
+    background-color: var(--surface-alt);
+}
+
+/* ---------- Boutons ---------- */
+.bouton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 24px;
+
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+
+    transition: background-color 0.15s ease;
+}
+
+.bouton:hover {
+    background: var(--primary-hover);
+}
+
+.bouton:active {
+    transform: translateY(1px);
+}
+
+.bouton-plein {
+    align-self: stretch;
+    width: 100%;
+    justify-content: center;
+}
+
+.bouton-etudiant {
+    background: var(--ok);
+}
+
+.bouton-etudiant:hover {
+    background: var(--ok-hover);
+}
+
+.arrow {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.15s ease;
+}
+
+.bouton:hover .arrow {
+    transform: translateX(2px);
+}
+
+.btn-nouveau {
+    min-height: 44px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    transition: background-color 0.15s ease;
+}
+
+.btn-nouveau:hover {
+    background: var(--primary-hover);
+}
+
+/* Petits boutons du tableau de bord */
+.actions-tableau {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.bouton-petit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 12px;
+
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.bouton-petit:hover {
+    background: var(--surface-alt);
+    border-color: var(--muted);
+}
+
+.bouton-primaire-petit {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #fff;
+}
+
+.bouton-primaire-petit:hover {
+    border-color: var(--primary-hover);
+    background: var(--primary-hover);
+    color: #fff;
+}
+
+.bouton-retour {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 8px;
+    padding: 0 20px;
+
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bouton-retour:hover {
+    background: var(--surface-alt);
+    color: var(--ink);
+}
+
+/* ---------- Accueil : hero ---------- */
+.hero {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-content: center;
+    padding-block: clamp(48px, 9vw, 112px) clamp(48px, 7vw, 80px);
+}
+
+.hero h1 {
+    grid-column: 1 / -1;
+    max-width: 14ch;
+    margin-bottom: clamp(24px, 4vw, 40px);
+    font-size: clamp(2.75rem, 1.5rem + 5vw, 5.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+}
+
+.hero .description {
+    grid-column: 1 / span 6;
+}
+
+.hero .bouton {
+    grid-column: 8 / -1;
+    align-self: end;
+    justify-self: start;
+}
+
+/* ---------- Accueil : étapes ---------- */
+.features {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    padding-bottom: 56px;
+}
+
+.feature {
+    padding-top: 14px;
+    border-top: 1px solid var(--ink);
+}
+
+.feature-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.feature-number {
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--primary);
+}
+
+.feature-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+}
+
+.feature h2 {
+    margin: 32px 0 0;
+    font-size: 1.125rem;
+}
+
+.feature p {
+    max-width: 34ch;
+    margin-top: 8px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+/* ---------- Accueil : pied de page ---------- */
+.footer {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    border: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.footer span {
+    padding: 12px 16px;
+}
+
+.footer span + span {
+    border-left: 1px solid var(--rule);
+}
+
+.footer span:first-child {
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.footer span:last-child {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+/* ---------- Formulaires ---------- */
+.formulaire-login {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 350px;
+    margin: 16px auto 0;
+    text-align: left;
+}
+
+.groupe-input label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.groupe-input input,
+section > form:not(.formulaire-login) input[type="text"] {
+    min-height: 48px;
+    background: #fff;
+    color: var(--ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.groupe-input input {
+    width: 100%;
+    padding: 0 14px;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: 16px;
+}
+
+.groupe-input input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: var(--focus-ring);
+}
+
+.groupe-input input:user-invalid {
+    border-color: var(--danger);
+}
+
+.groupe-input input::placeholder,
+section > form:not(.formulaire-login) input::placeholder {
+    color: #6b7a93;
+}
+
+/* Formulaire du tableau de bord (styles de base en ligne dans le HTML) */
+section > form:not(.formulaire-login) {
+    flex-wrap: wrap;
+}
+
+section > form:not(.formulaire-login) input[type="text"] {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+
+section > form:not(.formulaire-login) input[type="text"]:focus {
+    box-shadow: var(--focus-ring);
+}
+
+section > form:not(.formulaire-login) .bouton {
+    flex: 0 0 auto;
+}
+
+/* ---------- Alertes ---------- */
+.alerte-erreur,
+.alerte-succes {
+    width: 100%;
+    margin: 0 auto 16px;
+    padding: 12px 16px;
+    border: 1px solid;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.alerte-erreur {
+    max-width: 350px;
+    border-color: #efb4b4;
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.alerte-succes {
+    padding: 20px 16px;
+    border-color: #a8d5bb;
+    background: var(--ok-soft);
+    color: #14583a;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+/* ---------- Page de connexion ---------- */
+.login-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-block: 48px;
+}
+
+.login-section h1 {
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.login-section .description {
+    max-width: 40ch;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.footer-login {
+    margin-top: 0;
+    text-align: center;
+}
+
+.footer-login a {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.footer-login a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+}
+
+/* ---------- Espace étudiant ---------- */
+.fond-etudiant {
+    --strip: var(--ok);
+    --page-bg: #eef5f0;
+
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 24px 16px;
+}
+
+.boite-etudiant {
+    width: 100%;
+    max-width: 420px;
+    min-height: 0;
+    margin: 0;
+    padding: 32px 24px;
+
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow:
+        0 1px 2px rgba(18, 32, 58, 0.04),
+        0 20px 40px -24px rgba(18, 32, 58, 0.25);
+}
+
+.entete-etudiant {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+}
+
+.logo-etudiant {
+    margin-bottom: 8px;
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.entete-etudiant h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.module-titre {
+    margin-top: 12px;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+}
+
+.date-cours {
+    margin-top: 4px;
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+}
+
+/* ---------- Page QR code ---------- */
+body:has(> .qr-container) {
+    --page-bg: var(--surface-alt);
+
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 32px 16px;
+}
+
+.qr-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow:
+        0 1px 2px rgba(18, 32, 58, 0.04),
+        0 24px 48px -28px rgba(18, 32, 58, 0.25);
+    text-align: center;
+}
+
+.qr-container h1 {
+    margin-bottom: 4px;
+    font-size: clamp(1.75rem, 1.2rem + 2.4vw, 2.5rem);
+}
+
+.qr-container > p {
+    font-size: 1.125rem;
+    color: var(--muted);
+}
+
+.qr-image {
+    display: inline-block;
+    vertical-align: top;
+    width: min(350px, 100%);
+    height: auto;
+    aspect-ratio: 1;
+    margin: 24px 0 20px;
+    padding: 12px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.qr-container .bouton {
+    max-width: 100%;
+    margin-bottom: 12px;
+    background: var(--ok);
+}
+
+.qr-container .bouton:hover {
+    background: var(--ok-hover);
+}
+
+/* ---------- Tableaux ---------- */
+.tableau-seances {
+    width: 100%;
+    margin-top: 1rem;
+    border: 1px solid var(--rule);
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(18, 32, 58, 0.04);
+}
+
+.tableau-seances th {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--surface-alt);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.tableau-seances td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.tableau-seances td strong {
+    font-weight: 600;
+}
+
+.tableau-seances tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.tableau-seances tbody tr:hover {
+    background-color: var(--surface-alt);
+    transition: background-color 0.15s ease;
+}
+
+.badge-presence {
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid #a8d5bb;
+    border-radius: 999px;
+    background: var(--ok-soft);
+    color: var(--ok);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ---------- Animation d'entrée (une seule, au chargement) ---------- */
+@keyframes reveal {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.hero,
+.features {
+    animation: reveal 0.5s ease-out both;
+}
+
+.features {
+    animation-delay: 0.12s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ---------- Responsive ---------- */
+/* Laptop 1024-1439 et desktop 1440+ : mise en page de base (conteneur plafonné à 1120px) */
+
+/* Tablette 768-1023 */
+@media (max-width: 1023px) {
+    .hero .description {
+        grid-column: 1 / span 9;
+    }
+
+    .hero .bouton {
+        grid-column: 1 / -1;
+        margin-top: 32px;
+    }
+}
+
+/* Mobile 320-767 */
+@media (max-width: 767px) {
+    .hero .description {
+        grid-column: 1 / -1;
+        font-size: 1rem;
+    }
+
+    .hero .bouton {
+        justify-self: stretch;
+        margin-top: 28px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding-bottom: 40px;
+    }
+
+    .feature h2 {
+        margin-top: 20px;
+    }
+
+    .footer {
+        grid-template-columns: 1fr;
+    }
+
+    .footer span + span {
+        border-left: 0;
+        border-top: 1px solid var(--rule);
+    }
+
+    .footer span:last-child {
+        text-align: left;
+    }
+
+    /* Les tableaux défilent horizontalement au lieu de déborder */
+    .tableau-seances {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tableau-seances th,
+    .tableau-seances td {
+        padding: 12px;
+    }
+
+    .qr-container {
+        padding: 28px 20px;
+    }
+}
+
+@media (max-width: 540px) {
+    section > form:not(.formulaire-login) .bouton {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .brand-text {
+        display: none;
+    }
+}
+
+/* --- Badges et Récapitulatif Ticket 14 --- */
+.recap-presences {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.stat-tag {
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 8px;
+}
+
+.stat-vert {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+
+.stat-rouge {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+}
+
+.badge-absent {
+    background-color: #fef2f2;
+    color: #dc2626;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid #fecaca;
+    display: inline-block;
+}
+/* --- Statistiques & KPI Cards (Ticket 15) --- */
+.grille-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.carte-stat {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.titre-stat {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.valeur-stat {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.valeur-stat.vert { color: #16a34a; }
+.valeur-stat.rouge { color: #dc2626; }
+.valeur-stat.bleu { color: #2563eb; }

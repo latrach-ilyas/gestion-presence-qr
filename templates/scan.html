@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation de Présence | ENSAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="fond-etudiant">
+
+    <main class="boite-principale boite-etudiant">
+        
+        <header class="entete-etudiant">
+            <div class="logo-etudiant">🎓</div>
+            <h2>Validation de Présence</h2>
+            <p class="module-titre">{{ seance['module'] }}</p>
+            <p class="date-cours">{{ seance['date_debut'] }}</p>
+        </header>
+
+        {% if erreur %}
+            <div class="alerte-erreur">
+                {{ erreur }}
+            </div>
+        {% endif %}
+
+        {% if succes %}
+            <div class="alerte-succes">
+                ✅ {{ succes }}
+            </div>
+        {% else %}
+            <form action="{{ url_for('scan_etudiant', token=seance['token']) }}" method="POST" class="formulaire-login">
+                <div class="groupe-input">
+                    <label for="appoge">Code Apogée (ou ID Étudiant)</label>
+                    <input type="text" id="appoge" name="appoge" required placeholder="Ex: APG1001">
+                </div>
+
+                <button type="submit" class="bouton bouton-plein bouton-etudiant">Valider ma présence</button>
+            </form>
+        {% endif %}
+
+    </main>
+
+</body>
+</html>

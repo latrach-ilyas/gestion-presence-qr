@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Présences - {{ seance['module'] }} | ENSAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="boite-principale" style="max-width: 900px;">
+        
+        <header class="entete">
+            <div class="brand">
+                <div class="logo" aria-hidden="true">QR</div>
+                <div class="brand-text">
+                    <div class="brand-name">ENSAM</div>
+                    <div class="brand-subtitle">Feuille d'émargement</div>
+                </div>
+            </div>
+            <a href="{{ url_for('dashboard') }}" class="bouton-petit">← Tableau de bord</a>
+        </header>
+
+        <section style="margin-top: 1.5rem; text-align: left;">
+            <h2>Module : {{ seance['module'] }}</h2>
+            <p class="date-cours">Séance créée le : {{ seance['date_debut'] }}</p>
+
+            <!-- Résumé rapide -->
+             
+            <!-- CARTES DE STATISTIQUES (TICKET 15) -->
+            <div class="grille-stats">
+                <div class="carte-stat">
+                    <span class="titre-stat">Total Inscrits</span>
+                    <span class="valeur-stat">{{ total_inscrits }}</span>
+                </div>
+                <div class="carte-stat">
+                    <span class="titre-stat">Présents</span>
+                    <span class="valeur-stat vert">{{ presents|length }}</span>
+                </div>
+                <div class="carte-stat">
+                    <span class="titre-stat">Absents</span>
+                    <span class="valeur-stat rouge">{{ absents|length }}</span>
+                </div>
+                <div class="carte-stat">
+                    <span class="titre-stat">Taux de présence</span>
+                    <span class="valeur-stat bleu">{{ taux_presence }}%</span>
+                </div>
+            </div>
+            <!-- BOUTON D'EXPORT CSV (TICKET 16) -->
+            <div style="margin: 20px 0; text-align: right;">
+                <a href="{{ url_for('exporter_csv', seance_id=seance['id']) }}" class="bouton-petit" style="background-color: #047857; color: white; border: none; padding: 10px 18px; font-size: 0.95rem;">
+                    📥 Exporter la liste (CSV / Excel)
+                </a>
+            </div>
+
+            <!-- TABLEAU 1 : LES PRÉSENTS -->
+            <h3 style="color: #059669; margin-top: 2rem;">✅ Étudiants Présents ({{ presents|length }})</h3>
+            <table class="tableau-seances">
+                <thead>
+                    <tr>
+                        <th>N° Apogée</th>
+                        <th>Nom & Prénom</th>
+                        <th>Classe</th>
+                        <th>Émargement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for etudiant in presents %}
+                    <tr>
+                        <td><strong>{{ etudiant['appoge'] }}</strong></td>
+                        <td>{{ etudiant['nom'] }} {{ etudiant['prenom'] }}</td>
+                        <td>{{ etudiant['classe'] }}</td>
+                        <td><span class="badge-presence">✓ {{ etudiant['date_pointage'] }}</span></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #64748b; padding: 15px;">
+                            Aucun émargement enregistré.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- TABLEAU 2 : LES ABSENTS -->
+            <h3 style="color: #dc2626; margin-top: 2.5rem;">❌ Étudiants Absents ({{ absents|length }})</h3>
+            <table class="tableau-seances">
+                <thead>
+                    <tr>
+                        <th>N° Apogée</th>
+                        <th>Nom & Prénom</th>
+                        <th>Classe</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for etudiant in absents %}
+                    <tr>
+                        <td><strong>{{ etudiant['appoge'] }}</strong></td>
+                        <td>{{ etudiant['nom'] }} {{ etudiant['prenom'] }}</td>
+                        <td>{{ etudiant['classe'] }}</td>
+                        <td><span class="badge-absent">Non émargé</span></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #059669; padding: 15px; font-weight: 600;">
+                            Tous les étudiants sont présents !
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+</body>
+</html>

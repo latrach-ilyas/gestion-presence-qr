@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - Professeur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="boite-principale" style="max-width: 800px;"> <header class="entete">
+            <div class="brand">
+                <div class="logo" aria-hidden="true">QR</div>
+                <div class="brand-text">
+                    <div class="brand-name">ENSAM</div>
+                    <div class="brand-subtitle">Espace Professeur</div>
+                </div>
+            </div>
+            <p class="status" role="status">
+                <a href="{{ url_for('accueil') }}" style="text-decoration: none; color: #6b7280;">Déconnexion</a>
+            </p>
+        </header>
+
+        <section style="margin-top: 2rem;">
+            
+            <form action="{{ url_for('creer_seance') }}" method="POST" style="display: flex; gap: 10px; margin-bottom: 2rem;">
+                <input type="text" name="module" required placeholder="Nom du module (ex: Informatique)" 
+                       style="flex-grow: 1; padding: 10px; border-radius: 5px; border: 1px solid #d1d5db; font-family: inherit; font-size: 1rem; outline: none;">
+                <input type="number" name="duree" min="1" max="60" value="5" placeholder="Durée (min)" style="width: 120px; padding: 10px; border-radius: 5px; border: 1px solid #d1d5db;">
+                <button type="submit" class="bouton" style="border: none; cursor: pointer; padding: 10px 20px; font-size: 1rem; margin: 0;">
+                    ➕ Créer la séance
+                </button>
+            </form>
+            
+            <h2>Mes dernières séances</h2>
+            
+            <table class="tableau-seances">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Module</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for seance in seances %}
+                    <tr>
+                        <td>{{ seance['date_debut'] }}</td>
+                        <td><strong>{{ seance['module'] }}</strong></td>
+                        <td>
+                            {% if seance['statut_reel'] == 'Active' %}
+                                <span style="color: #059669; font-weight: 500;">🟢 Active</span>
+                            {% else %}
+                                <span style="color: #dc2626; font-weight: 500;">🔴 Terminée</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="actions-tableau">
+                                <a href="{{ url_for('afficher_qr', seance_id=seance['id']) }}" class="bouton-petit bouton-primaire-petit">
+                                    📱 QR Code
+                                </a>
+                                
+                                <a href="{{ url_for('voir_presences', seance_id=seance['id']) }}" class="bouton-petit">
+                                    👥 Liste
+                                </a>
+                                {% if seance['statut_reel'] == 'Active' %}
+                                    <a href="{{ url_for('fermer', seance_id=seance['id']) }}" class="bouton-petit" style="color: #dc2626;">
+                                        ⏹ Clôturer
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #6b7280; padding: 20px;">Aucune séance créée pour le moment.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </section>
+    </main>
+</body>
+</html>
